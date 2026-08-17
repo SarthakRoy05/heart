@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Mobile Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>I Love You Sutapa ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Heading */
+        .container {
+            width: 100%;
+            padding: 20px 10px 5px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ffb6c1;
+            font-family: Arial, sans-serif;
+
+            /* Responsive Font */
+            font-size: clamp(18px, 5vw, 32px);
+
+            line-height: 1.3;
+
+            text-shadow:
+                0 0 5px #ff69b4,
+                0 0 10px #ff69b4,
+                0 0 20px #ff1493;
+        }
+
+        /* Heart Canvas */
+        canvas {
+            display: block;
+
+            width: min(95vw, 700px);
+
+            height: calc(100vh - 85px);
+
+            max-height: 700px;
+
+            margin: auto;
+        }
+
+        /* Small Mobile */
+        @media (max-width: 480px) {
+
+            .container {
+                padding-top: 15px;
+            }
+
+            h1 {
+                font-size: clamp(16px, 5vw, 24px);
+            }
+
+            canvas {
+                width: 100vw;
+                height: calc(100vh - 75px);
+            }
+        }
+
+        /* Landscape Phone */
+        @media (max-height: 500px) {
+
+            .container {
+                padding-top: 8px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            canvas {
+                height: calc(100vh - 55px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>💖 I LOVE YOU SUTAPA MY DEAR 😘</h1>
+    </div>
+
+    <canvas id="heartCanvas"></canvas>
+
+
+    <script>
+
+        const canvas = document.getElementById("heartCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Make canvas responsive
+        function resizeCanvas() {
+
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            const dpr = window.devicePixelRatio || 1;
+
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+
+            canvas.style.width = width + "px";
+            canvas.style.height = height + "px";
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        resizeCanvas();
+
+        window.addEventListener("resize", resizeCanvas);
+
+
+        let scale = 11;
+        let i = 0;
+
+        function drawHeart() {
+
+            if (scale > 16) {
+                return;
+            }
+
+            const width = window.innerWidth;
+            const height = canvas.clientHeight;
+
+            /*
+             * Automatically adjust heart size
+             * according to screen width
+             */
+            const responsiveScale =
+                Math.min(width / 700, 1);
+
+            const actualScale =
+                scale * responsiveScale;
+
+
+            const angle =
+                i * (Math.PI * 2) / 120;
+
+
+            const x =
+                16 *
+                Math.pow(Math.sin(angle), 3) *
+                actualScale;
+
+
+            const y =
+                (
+                    13 * Math.cos(angle)
+                    - 5 * Math.cos(2 * angle)
+                    - 2 * Math.cos(3 * angle)
+                    - Math.cos(4 * angle)
+                ) * actualScale;
+
+
+            ctx.fillStyle = "#ffb6c1";
+
+
+            const fontSize =
+                Math.max(6, 8 * responsiveScale);
+
+            ctx.font =
+                `bold ${fontSize}px Arial`;
+
+
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+
+
+            ctx.fillText(
+                "I love you",
+                width / 2 + x,
+                height / 2 - y
+            );
+
+
+            i++;
+
+
+            if (i >= 120) {
+
+                i = 0;
+                scale++;
+
+            }
+
+
+            requestAnimationFrame(drawHeart);
+        }
+
+
+        drawHeart();
+
+    </script>
+
+</body>
+</html>
